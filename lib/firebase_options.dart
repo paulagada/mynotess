@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '822356617603',
     projectId: 'mynotess-paul-james',
     storageBucket: 'mynotess-paul-james.appspot.com',
-    iosClientId: '822356617603-b512n9v9rriuo37r77rebrue5r7151t8.apps.googleusercontent.com',
+    iosClientId:
+        '822356617603-b512n9v9rriuo37r77rebrue5r7151t8.apps.googleusercontent.com',
     iosBundleId: 'com.plearncode.mynotess',
   );
 }
