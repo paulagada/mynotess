@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mynotess/constant/routes.dart';
 import 'package:mynotess/enums/menu_action.dart';
 import 'package:mynotess/services/auth/auth%20_service.dart';
+import 'package:mynotess/services/crud/notes_service.dart';
 
 class Noteview extends StatefulWidget {
   const Noteview({Key? key}) : super(key: key);
@@ -11,40 +12,74 @@ class Noteview extends StatefulWidget {
 }
 
 class _NoteviewState extends State<Noteview> {
+  late final NoteService _noteService;
+  String get userEmail => Authservice.Firebase().currentUser!.email!;
+
+  @override
+  void initState() {
+    _noteService = NoteService();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _noteService.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main UI'),
-        actions: [
-          PopupMenuButton<MenuAction>(
-            onSelected: (value) async {
-              switch (value) {
-                case MenuAction.logout:
-                  final shouldLogout = await showLogOutDialog(context);
-                  if (shouldLogout) {
-                    await Authservice.Firebase().logOut();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      loginRoute,
-                      (_) => false,
-                    );
-                  }
-                  break;
-              }
-            },
-            itemBuilder: (context) {
-              return const [
-                PopupMenuItem<MenuAction>(
-                  value: MenuAction.logout,
-                  child: Text('Log out'),
-                )
-              ];
-            },
-          )
-        ],
-      ),
-      body: const Text('Hello world'),
-    );
+        appBar: AppBar(
+          title: const Text('Main UI'),
+          actions: [
+            PopupMenuButton<MenuAction>(
+              onSelected: (value) async {
+                switch (value) {
+                  case MenuAction.logout:
+                    final shouldLogout = await showLogOutDialog(context);
+                    if (shouldLogout) {
+                      await Authservice.Firebase().logOut();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        loginRoute,
+                        (_) => false,
+                      );
+                    }
+                    break;
+                }
+              },
+              itemBuilder: (context) {
+                return const [
+                  PopupMenuItem<MenuAction>(
+                    value: MenuAction.logout,
+                    child: Text('Log out'),
+                  )
+                ];
+              },
+            )
+          ],
+        ),
+        body: FutureBuilder(
+          future: _noteService.getOrCreateUser(email: userEmail),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                return StreamBuilder(
+                  stream: _noteService.allNotes,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const Text('waiting for all notes....');
+                      default:
+                        return const CircularProgressIndicator();
+                    }
+                  },
+                );
+              default:
+                return const CircularProgressIndicator();
+            }
+          },
+        ));
   }
 }
 
@@ -53,8 +88,8 @@ Future<bool> showLogOutDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text('sigh out'),
-        content: const Text('Are you sure u want to sign out?'),
+        title: const Text('sign out'),
+        content: const Text('Are you sure u want to log out?'),
         actions: [
           TextButton(
             onPressed: () {
