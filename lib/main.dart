@@ -4,8 +4,9 @@ import 'package:mynotess/services/auth/auth%20_service.dart';
 import 'package:mynotess/views/Register_view.dart';
 import 'package:mynotess/views/Verify_email_view.dart';
 import 'package:mynotess/views/login_view.dart';
+import 'package:mynotess/views/notes/new_note_view.dart';
 
-import 'package:mynotess/views/note_view.dart';
+import 'package:mynotess/views/notes/note_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,7 @@ void main() {
         registerRoute: (context) => const Registerview(),
         notesRoute: (context) => const Noteview(),
         verifyEmailRoute: (context) => const verifyEmailview(),
+        newNoteRoute: (context) => const NewNoteView(),
       },
     ),
   );
