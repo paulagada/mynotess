@@ -50,16 +50,16 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCvyS3TEZcz6sO2ggqkkWXDjSALaSxheSk',
-    appId: '1:822356617603:android:403ff43b48e35956322eb6',
+    // apiKey: 'AIzaSyCvyS3TEZcz6sO2ggqkkWXDjSALaSxheSk',
+    // appId: '1:822356617603:android:403ff43b48e35956322eb6',
     messagingSenderId: '822356617603',
     projectId: 'mynotess-paul-james',
     storageBucket: 'mynotess-paul-james.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC_JMvd54Y0W5g8_VT3JsMffryMHrf3TeM',
-    appId: '1:822356617603:ios:b02a831ad03cac0e322eb6',
+    // apiKey: 'AIzaSyC_JMvd54Y0W5g8_VT3JsMffryMHrf3TeM',
+    // appId: '1:822356617603:ios:b02a831ad03cac0e322eb6',
     messagingSenderId: '822356617603',
     projectId: 'mynotess-paul-james',
     storageBucket: 'mynotess-paul-james.appspot.com',
